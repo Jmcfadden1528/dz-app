@@ -18,8 +18,28 @@ db = SQLAlchemy(app)
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
-    def __init__(self, name):
+    description = db.Column(db.String(500))
+    point_value = db.Column(db.Integer)
+    def __init__(self, name, description, point_value):
         self.name = name
+        self.description = description
+        self.point_value = point_value
+
+class User(db.Model):
+    username = db.Column(db.String(50), primary_key=True)
+    password = db.Column(db.String(16))
+    
+    def __init__(self,username,password):
+        self.username = username
+        self.password = password
+
+class Mission(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150))
+    description = db.Column(db.String(300))
+    def __init__(self, title):
+        self.title = title
+
 
 @app.route("/")
 def index():
@@ -27,21 +47,31 @@ def index():
     return template.render()
 
 
-@app.route("/hello", methods=['POST'])
+@app.route("/signup", methods=['GET', 'POST'])
 def hello():
-    first_name = request.form['first_name']
-    template = jinja_env.get_template('hello_display.html')
-    return template.render(name=first_name)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        new_user = User(username, password)
+        db.session.add(new_user)
+        db.session.commit()
 
-
-tasks = []
+   
+    template = jinja_env.get_template('signup.html')
+    return template.render()
 
 @app.route('/todos', methods=['POST', 'GET'])
 def todos():
 
     if request.method == 'POST':
-        task = request.form['task']
-        tasks.append(task)
+        task_name = request.form['task']
+        task_description = request.form['task_description']
+        task_point_value = request.form['task_point_value']
+        new_task = Task(task_name, task_description, int(task_point_value))
+        db.session.add(new_task)
+        db.session.commit()
+
+    tasks = Task.query.all()
 
     template = jinja_env.get_template('todos.html')
     return template.render(title="TODOS", tasks=tasks)

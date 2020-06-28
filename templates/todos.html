@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h1>TO DOS</h1>
+        <h1>Add Tasks</h1>
         <form method='post'>
             <label>
                 New Task:
                 <input type="text" name="task" />
+            </label>
+            <label>
+                Description:
+                <input type="text" name="task_description" />
+            </label>
+            <label>
+                Point Value:
+                <input type="text" name="task_point_value" />
             </label>
             <input type="submit" value="Add Task" />
 
@@ -21,7 +29,7 @@
 
             <ul>
                 {% for task in tasks %}
-                <li>{{task}}</li>
+                <li>{{task.name}}</li>
                 {% endfor %}
             </ul>
 
