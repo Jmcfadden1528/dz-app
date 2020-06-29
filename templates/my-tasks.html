@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>My Tasks</h1>
+
+<hr />
+
+{% if tasks|length == 0 %}
+<p>No tasks yet</p>
+
+
+{% else %}
+
+    <d1>
+        {% for task in tasks %}
+        <dt><h4>Task: {{task.name}}</h4></dt>
+        <dd>{{task.description}}</dd>
+        <form action="/task-completed" method='POST'>
+            <input name="task-id" type="hidden" value="{{ task.id }}" /> 
+            <input type="submit", value="Mark Completed" />
+        </form>
+        <hr />
+        {% endfor %}
+    </d1>
+
+
+{% endif %}
+
+
+
+{% endblock %}

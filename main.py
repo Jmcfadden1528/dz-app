@@ -43,7 +43,7 @@ class Mission(db.Model):
 
 @app.route("/")
 def index():
-    template = jinja_env.get_template('hello_form.html')
+    template = jinja_env.get_template('index.html')
     return template.render()
 
 
@@ -60,8 +60,8 @@ def hello():
     template = jinja_env.get_template('signup.html')
     return template.render()
 
-@app.route('/todos', methods=['POST', 'GET'])
-def todos():
+@app.route('/add-tasks', methods=['POST', 'GET'])
+def add_tasks():
 
     if request.method == 'POST':
         task_name = request.form['task']
@@ -73,19 +73,25 @@ def todos():
 
     tasks = Task.query.all()
 
-    template = jinja_env.get_template('todos.html')
-    return template.render(title="TODOS", tasks=tasks)
+    template = jinja_env.get_template('add-tasks.html')
+    return template.render(title="add-tasks", tasks=tasks)
 
-@app.route("/inputs", methods=['GET'])
-def inputs():
-    template = jinja_env.get_template('inputs.html')
-    return template.render()
+@app.route("/my-tasks", methods=['GET'])
+def display_my_tasks():
+    template = jinja_env.get_template('my-tasks.html')
+    tasks = Task.query.all()
+    return template.render(title="my-tasks", tasks=tasks)
 
 
-@app.route('/validate-time')
-def display_time_form():
-    template = jinja_env.get_template('time_form.html')
-    return template.render()
+@app.route('/task-completed', methods=['POST'])
+def display_task_submitted():
+    task_id = int(request.form['task-id'])
+    task = Task.query.get(task_id)
+    point_value = task.point_value
+    #print(task)
+    template = jinja_env.get_template('task-completed.html')
+
+    return template.render(task=task, point_value=point_value)
 
 
 if __name__ == '__main__':

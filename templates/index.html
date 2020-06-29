@@ -1,10 +1,10 @@
-<!doctype html>
-<html>
-    <body>
-        <form action="https://duckduckgo.com" method="get">
-            <label for="search-term">Search Term</label>
-            <input id="search-term" type="text" name="q" />
-            <input type="submit" />
-        </form>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Main Menu</h1>
+
+<a href="/add-tasks">Add Tasks</a>
+
+
+{% endblock %}
