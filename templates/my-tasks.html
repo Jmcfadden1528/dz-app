@@ -17,7 +17,7 @@
         <dt><h4>Task: {{task.name}}</h4></dt>
         <dd>{{task.description}}</dd>
         <form action="/task-completed" method='POST'>
-            <input name="task-id" type="hidden" value="{{ task.id }}" /> 
+            <input name="task-id" type="hidden" value="{{ Task.id }}" /> 
             <input type="submit", value="Mark Completed" />
         </form>
         <hr />
